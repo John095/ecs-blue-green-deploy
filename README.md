@@ -1,64 +1,88 @@
-# Blue/Green Deployment on AWS ECS
+# Full-Stack Blog with Next.js and Blue-Green Deployment on AWS ECS
 
 ## Project Overview
+This project is a full-stack blog application built with **Next.js** (App Router, TypeScript), **Prisma**, and a **PostgreSQL** database, styled with **Tailwind CSS**, and deployed to **AWS ECS Fargate** using a **blue-green deployment** strategy with **GitHub Actions**. The application allows users to create and view blog posts, with data stored in a PostgreSQL database running locally in a **Docker** container during development. For production, the app is deployed to AWS ECS with zero-downtime updates, leveraging two target groups (blue and green) and an Application Load Balancer (ALB). The project demonstrates modern full-stack development, containerization, and advanced DevOps practices for scalable, reliable deployments.
 
-This project, based on the AWS Workshop "Blue/Green Deployments on ECS," demonstrates deploying a containerized web application on Amazon Elastic Container Service (ECS) using a blue/green deployment strategy. The application, a simple Nginx web server, was hosted on ECS with Fargate, leveraging AWS CodeDeploy for zero-downtime updates, an Application Load Balancer (ALB) for traffic routing, and Amazon ECR for container storage. The infrastructure was automated using Terraform, ensuring reproducibility and scalability.
+**Repository**: [github.com/John095/ecs-blue-green-deploy](https://github.com/John095/ecs-blue-green-deploy)
 
 ## Objectives
-
-- Implement a blue/green deployment to minimize downtime and risk during application updates.
-- Deploy a containerized application on ECS with Fargate.
-- Automate infrastructure setup and deployment pipeline using Terraform and CodeDeploy.
-- Ensure high availability and secure access with VPC and IAM configurations.
+- Build a functional blog with CRUD operations for posts using Next.js App Router and TypeScript.
+- Integrate a local PostgreSQL database using Docker and Prisma for development.
+- Create a responsive, modern UI with Tailwind CSS.
+- Deploy the application to AWS ECS Fargate with a blue-green deployment pipeline for zero-downtime updates.
+- Showcase skills in full-stack development, DevOps, and cloud infrastructure.
 
 ## Technologies Used
-
-- **AWS Services**: ECS (Fargate), CodeDeploy, ALB, ECR, VPC, IAM, RDS
-- **Tools**: Terraform, Docker, AWS CLI
-- **Concepts**: Blue/green deployment, container orchestration, serverless computing, CI/CD
+- **Frontend/Backend**: Next.js (App Router), React, TypeScript
+- **Database**: PostgreSQL (Docker for local, managed service for production), Prisma
+- **Styling**: Tailwind CSS
+- **DevOps**: Docker, AWS ECS Fargate, Application Load Balancer, GitHub Actions
+- **Infrastructure**: AWS (ECR, ECS, ALB), Terraform or CloudFormation (based on repo setup)
+- **Concepts**: Full-stack development, ORM, containerization, CI/CD, blue-green deployment, type safety, responsive design
 
 ## Architecture
+- **Local Development**:
+  - **PostgreSQL**: Hosted in a Docker container via Docker Compose, running on `localhost:5432`.
+  - **Prisma**: ORM for managing the `Post` model and database interactions.
+  - **Next.js**: App Router for API routes (`/api/posts`) and client-side rendering of the blog UI (post list and creation form).
+  - **Tailwind CSS**: Utility-first styling for a responsive, modern interface.
+- **Production Deployment**:
+  - **AWS ECS Fargate**: Hosts the Next.js application in Docker containers.
+  - **Blue-Green Deployment**: Two ECS services (blue and green) with separate target groups behind an ALB. Traffic shifts from blue (production) to green (new version) after validation.
+  - **GitHub Actions**: CI/CD pipeline builds the Docker image, pushes it to AWS ECR, updates the ECS task definition, and swaps target groups for zero-downtime deployment.
+  - **PostgreSQL**: Managed database (e.g., AWS RDS or Supabase) for production data storage.
 
-- **VPC**: Configured with public and private subnets across two AZs (`us-east-1a`, `us-east-1b`) for high availability.
-- **ECR**: Stored Docker images for the Nginx application.
-- **ECS with Fargate**: Ran the application in a serverless ECS cluster with a task definition.
-- **ALB**: Managed traffic with two target groups (blue and green) and listeners (port 80 for production, 8080 for testing).
-- **CodeDeploy**: Orchestrated blue/green deployments, enabling testing and traffic switching.
-- **S3**: Stored the AppSpec file for CodeDeploy.
+<!-- ![Architecture Diagram](architecture-diagram.png)
+*Diagram showing local Docker setup and AWS ECS blue-green deployment pipeline* -->
 
 ## Implementation Steps
+1. **Local Setup**:
+   - Configured a PostgreSQL container with Docker Compose for local development.
+   - Defined a Prisma `Post` model and applied migrations to create the database schema.
+   - Built a Next.js app with TypeScript, including API routes (`/api/posts`) for CRUD operations and a homepage for post creation and display.
+   - Styled the UI with Tailwind CSS for a responsive, user-friendly experience.
+   - Tested locally at `http://localhost:3000` with Dockerized PostgreSQL.
 
-1. **VPC Setup**: Created a VPC with public/private subnets, an Internet Gateway, and route tables.
-2. **ECR Configuration**: Built and pushed a Dockerized Nginx application to an ECR repository.
-3. **ECS Cluster**: Deployed an ECS cluster with a Fargate task definition for the application.
-4. **ALB Setup**: Configured an ALB with blue and green target groups and listeners for production and test traffic.
-5. **CodeDeploy**: Set up a CodeDeploy application and deployment group for blue/green deployment, using an AppSpec file.
-6. **Service Deployment**: Launched an ECS service with blue/green deployment enabled, linked to the ALB.
-7. **Testing and Deployment**: Tested the green environment via the ALB test listener, then switched traffic to the green environment using CodeDeploy.
-8. **Automation**: Used Terraform to automate infrastructure provisioning and streamline deployments.
+2. **AWS ECS Deployment**:
+   - Created a Docker image for the Next.js app and pushed it to AWS ECR.
+   - Set up an ECS cluster with Fargate, two target groups (blue and green), and an ALB for traffic routing.
+   - Configured a GitHub Actions pipeline to automate building, pushing, and deploying the app, with a manual review step for blue-green traffic switching.
+   - Integrated a managed PostgreSQL database (e.g., AWS RDS) for production, updating the `DATABASE_URL` in environment variables.
+
+3. **Blue-Green Deployment**:
+   - Used AWS ECS with an external controller (GitHub Actions) to manage task sets and target group swaps, inspired by [aws-samples/ecs-blue-green-deployment](https://github.com/aws-samples/ecs-blue-green-deployment).
+   - Implemented zero-downtime deployment by testing the green environment on a separate ALB port (e.g., 8080) before swapping traffic to production (port 80).
+   - Ensured rollback capabilities by maintaining the blue environment until the green deployment is validated.
+
+4. **Testing**:
+   - Validated local development with `psql` to query the PostgreSQL database and `curl` to test API routes.
+   - Tested production deployment by accessing the ALB DNS URL and verifying traffic switching during blue-green deployments.
 
 ## Challenges and Solutions
-
-- **Challenge**: Ensuring zero-downtime deployments.
-  - **Solution**: Leveraged CodeDeploy’s blue/green strategy to test the green environment before switching traffic.
-- **Challenge**: Managing test and production traffic.
-  - **Solution**: Configured ALB with separate listeners (port 80 for blue, 8080 for green).
-- **Challenge**: Automating complex infrastructure.
-  - **Solution**: Used Terraform to define and deploy all resources reproducibly.
+- **Challenge**: Setting up a local PostgreSQL database without a managed service.
+  - **Solution**: Used Docker Compose to run PostgreSQL locally, simplifying setup and ensuring portability.
+- **Challenge**: Ensuring zero-downtime deployments on ECS.
+  - **Solution**: Implemented a blue-green deployment pipeline with GitHub Actions, using two target groups and an ALB to switch traffic seamlessly.
+- **Challenge**: Debugging database connectivity issues in local development (posts not saving).
+  - **Solution**: Installed `psql` client, verified Prisma migrations, and tested API routes with `curl` to ensure data persistence.
+- **Challenge**: Managing TypeScript types in Next.js App Router.
+  - **Solution**: Defined a `Post` interface and used proper typing for API routes and components, ensuring type safety.
 
 ## Outcome
-
-The project resulted in a scalable, containerized web application on ECS Fargate with a blue/green deployment pipeline. Updates were deployed with zero downtime by testing the green environment and switching traffic via CodeDeploy. The Terraform automation ensured consistent infrastructure setup.
+The project resulted in a fully functional blog application, runnable locally with Docker and deployed to AWS ECS Fargate with a robust blue-green deployment pipeline. Users can create and view posts, with data persisted in PostgreSQL (local or managed). The CI/CD pipeline ensures zero-downtime updates, making the application scalable and reliable. The project showcases expertise in full-stack development, cloud infrastructure, and modern DevOps practices.
 
 ## Key Learnings
-
-- Mastered blue/green deployment for containerized applications.
-- Gained expertise in ECS Fargate and CodeDeploy for automated deployments.
-- Learned to secure and scale AWS architectures with VPC, IAM, and ALB.
-- Developed skills in infrastructure-as-code with Terraform.
+- Mastered Next.js App Router with TypeScript for type-safe full-stack development.
+- Gained expertise in Prisma for ORM-based database interactions and Docker for local database management.
+- Learned to implement blue-green deployments on AWS ECS Fargate with GitHub Actions for zero-downtime updates.
+- Developed skills in responsive design with Tailwind CSS and CI/CD pipeline automation.
 
 ## Live Demo
+- **Local URL**: [http://localhost:3000](http://localhost:3000) (when running locally)
+- **Production URL**: [ALB DNS URL, e.g., http://<alb-dns>.us-east-1.elb.amazonaws.com] (if deployed)
+- **Source Code**: [github.com/John095/ecs-blue-green-deploy](https://github.com/John095/ecs-blue-green-deploy)
 
-- **Application URL**: [Insert ALB DNS from deployment]
-- **ECR Repository**: [Insert ECR URL from deployment]
-- **Source Code**: [Link to Terraform/Docker repository, if applicable]
+<!-- ![Blog Screenshot](blog-screenshot.png)
+*Screenshot of the blog UI showing post list and creation form* -->
+
+*Built as a full-stack project to demonstrate Next.js, TypeScript, Prisma, PostgreSQL, Docker, and AWS ECS blue-green deployment*
