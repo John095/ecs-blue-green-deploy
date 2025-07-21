@@ -1,0 +1,153 @@
+  <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <root>
+      <mxCell id="0"/>
+      <mxCell id="1" parent="0"/>
+      <!-- AWS Cloud -->
+      <mxCell id="2" value="AWS Cloud" style="swimlane;fillColor=#F58534;strokeColor=#000000;fontColor=#ffffff;" vertex="1" parent="1">
+        <mxGeometry x="50" y="50" width="700" height="600" as="geometry"/>
+      </mxCell>
+      <!-- VPC -->
+      <mxCell id="3" value="VPC (10.0.0.0/16)" style="swimlane;fillColor=#FFE6CC;strokeColor=#D79B00;" vertex="1" parent="2">
+        <mxGeometry x="50" y="50" width="600" height="500" as="geometry"/>
+      </mxCell>
+      <!-- Availability Zone 1 -->
+      <mxCell id="4" value="Availability Zone 1" style="swimlane;fillColor=#FFFFFF;strokeColor=#D79B00;" vertex="1" parent="3">
+        <mxGeometry x="50" y="50" width="250" height="400" as="geometry"/>
+      </mxCell>
+      <!-- Public Subnet 1 (10.0.1.0/24) -->
+      <mxCell id="5" value="Public Subnet (10.0.1.0/24)" style="swimlane;fillColor=#E6F3E6;strokeColor=#006400;" vertex="1" parent="4">
+        <mxGeometry x="20" y="50" width="200" height="150" as="geometry"/>
+      </mxCell>
+      <!-- ALB Node 1 -->
+      <mxCell id="6" value="ALB (Blue)" style="shape=mxgraph.aws4.load_balancer;fillColor=#FF9900;strokeColor=#000000;" vertex="1" parent="5">
+        <mxGeometry x="50" y="30" width="80" height="80" as="geometry"/>
+      </mxCell>
+      <!-- NAT Gateway 1 -->
+      <mxCell id="7" value="NAT Gateway" style="shape=mxgraph.aws4.nat_gateway;fillColor=#FF9900;strokeColor=#000000;" vertex="1" parent="5">
+        <mxGeometry x="50" y="120" width="80" height="80" as="geometry"/>
+      </mxCell>
+      <!-- Private Subnet 1 (10.0.2.0/24) -->
+      <mxCell id="8" value="Private Subnet (10.0.2.0/24)" style="swimlane;fillColor=#FFF0F5;strokeColor=#8B008B;" vertex="1" parent="4">
+        <mxGeometry x="20" y="220" width="200" height="150" as="geometry"/>
+      </mxCell>
+      <!-- ECS Fargate Blue -->
+      <mxCell id="9" value="ECS Fargate (Blue)" style="shape=mxgraph.aws4.ecs;fillColor=#FF9900;strokeColor=#000000;" vertex="1" parent="8">
+        <mxGeometry x="50" y="30" width="80" height="80" as="geometry"/>
+      </mxCell>
+      <!-- Availability Zone 2 -->
+      <mxCell id="10" value="Availability Zone 2" style="swimlane;fillColor=#FFFFFF;strokeColor=#D79B00;" vertex="1" parent="3">
+        <mxGeometry x="350" y="50" width="250" height="400" as="geometry"/>
+      </mxCell>
+      <!-- Public Subnet 2 (10.0.3.0/24) -->
+      <mxCell id="11" value="Public Subnet (10.0.3.0/24)" style="swimlane;fillColor=#E6F3E6;strokeColor=#006400;" vertex="1" parent="10">
+        <mxGeometry x="20" y="50" width="200" height="150" as="geometry"/>
+      </mxCell>
+      <!-- ALB Node 2 -->
+      <mxCell id="12" value="ALB (Green)" style="shape=mxgraph.aws4.load_balancer;fillColor=#FF9900;strokeColor=#000000;" vertex="1" parent="11">
+        <mxGeometry x="50" y="30" width="80" height="80" as="geometry"/>
+      </mxCell>
+      <!-- NAT Gateway 2 -->
+      <mxCell id="13" value="NAT Gateway" style="shape=mxgraph.aws4.nat_gateway;fillColor=#FF9900;strokeColor=#000000;" vertex="1" parent="11">
+        <mxGeometry x="50" y="120" width="80" height="80" as="geometry"/>
+      </mxCell>
+      <!-- Private Subnet 2 (10.0.4.0/24) -->
+      <mxCell id="14" value="Private Subnet (10.0.4.0/24)" style="swimlane;fillColor=#FFF0F5;strokeColor=#8B008B;" vertex="1" parent="10">
+        <mxGeometry x="20" y="220" width="200" height="150" as="geometry"/>
+      </mxCell>
+      <!-- ECS Fargate Green -->
+      <mxCell id="15" value="ECS Fargate (Green)" style="shape=mxgraph.aws4.ecs;fillColor=#FF9900;strokeColor=#000000;" vertex="1" parent="14">
+        <mxGeometry x="50" y="30" width="80" height="80" as="geometry"/>
+      </mxCell>
+      <!-- Internet Gateway -->
+      <mxCell id="16" value="Internet Gateway" style="shape=mxgraph.aws4.internet_gateway;fillColor=#FF9900;strokeColor=#000000;" vertex="1" parent="3">
+        <mxGeometry x="50" y="10" width="80" height="80" as="geometry"/>
+      </mxCell>
+      <!-- RDS (PostgreSQL) -->
+      <mxCell id="17" value="RDS (PostgreSQL)" style="shape=mxgraph.aws4.rds;fillColor=#FF9900;strokeColor=#000000;" vertex="1" parent="3">
+        <mxGeometry x="300" y="430" width="80" height="80" as="geometry"/>
+      </mxCell>
+      <!-- Amazon ECR -->
+      <mxCell id="18" value="ECR" style="shape=mxgraph.aws4.ecr;fillColor=#FF9900;strokeColor=#000000;" vertex="1" parent="2">
+        <mxGeometry x="50" y="510" width="80" height="80" as="geometry"/>
+      </mxCell>
+      <!-- CloudWatch -->
+      <mxCell id="19" value="CloudWatch" style="shape=mxgraph.aws4.cloudwatch;fillColor=#FF9900;strokeColor=#000000;" vertex="1" parent="2">
+        <mxGeometry x="150" y="510" width="80" height="80" as="geometry"/>
+      </mxCell>
+      <!-- Route 53 (Optional) -->
+      <mxCell id="20" value="Route 53" style="shape=mxgraph.aws4.route_53;fillColor=#FF9900;strokeColor=#000000;" vertex="1" parent="2">
+        <mxGeometry x="250" y="510" width="80" height="80" as="geometry"/>
+      </mxCell>
+      <!-- GitHub Actions (External) -->
+      <mxCell id="21" value="GitHub Actions" style="rounded=1;fillColor=#FFFFFF;strokeColor=#000000;" vertex="1" parent="1">
+        <mxGeometry x="50" y="650" width="100" height="60" as="geometry"/>
+      </mxCell>
+      <!-- Local Development -->
+      <mxCell id="22" value="Local Development" style="swimlane;fillColor=#E0E0E0;strokeColor=#000000;" vertex="1" parent="1">
+        <mxGeometry x="800" y="50" width="300" height="200" as="geometry"/>
+      </mxCell>
+      <!-- Local PostgreSQL (Docker) -->
+      <mxCell id="23" value="PostgreSQL (Docker)" style="shape=mxgraph.aws4.database;fillColor=#FFFFFF;strokeColor=#000000;" vertex="1" parent="22">
+        <mxGeometry x="50" y="50" width="80" height="80" as="geometry"/>
+      </mxCell>
+      <!-- Local Next.js App -->
+      <mxCell id="24" value="Next.js App" style="rounded=1;fillColor=#FFFFFF;strokeColor=#000000;" vertex="1" parent="22">
+        <mxGeometry x="150" y="50" width="100" height="60" as="geometry"/>
+      </mxCell>
+      <!-- Connections -->
+      <mxCell id="25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="16" target="6">
+        <mxGeometry relative="1" as="geometry"/>
+      </mxCell>
+      <mxCell id="26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="16" target="12">
+        <mxGeometry relative="1" as="geometry"/>
+      </mxCell>
+      <mxCell id="27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="6" target="9">
+        <mxGeometry relative="1" as="geometry"/>
+      </mxCell>
+      <mxCell id="28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="12" target="15">
+        <mxGeometry relative="1" as="geometry"/>
+      </mxCell>
+      <mxCell id="29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="9" target="17">
+        <mxGeometry relative="1" as="geometry"/>
+      </mxCell>
+      <mxCell id="30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="15" target="17">
+        <mxGeometry relative="1" as="geometry"/>
+      </mxCell>
+      <mxCell id="31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="9" target="7">
+        <mxGeometry relative="1" as="geometry"/>
+      </mxCell>
+      <mxCell id="32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="15" target="13">
+        <mxGeometry relative="1" as="geometry"/>
+      </mxCell>
+      <mxCell id="33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="7" target="16">
+        <mxGeometry relative="1" as="geometry"/>
+      </mxCell>
+      <mxCell id="34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="13" target="16">
+        <mxGeometry relative="1" as="geometry"/>
+      </mxCell>
+      <mxCell id="35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="21" target="18">
+        <mxGeometry relative="1" as="geometry"/>
+      </mxCell>
+      <mxCell id="36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="18" target="9">
+        <mxGeometry relative="1" as="geometry"/>
+      </mxCell>
+      <mxCell id="37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="18" target="15">
+        <mxGeometry relative="1" as="geometry"/>
+      </mxCell>
+      <mxCell id="38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="9" target="19">
+        <mxGeometry relative="1" as="geometry"/>
+      </mxCell>
+      <mxCell id="39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="15" target="19">
+        <mxGeometry relative="1" as="geometry"/>
+      </mxCell>
+      <mxCell id="40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="6" target="20">
+        <mxGeometry relative="1" as="geometry"/>
+      </mxCell>
+      <mxCell id="41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="12" target="20">
+        <mxGeometry relative="1" as="geometry"/>
+      </mxCell>
+      <mxCell id="42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="24" target="23">
+        <mxGeometry relative="1" as="geometry"/>
+      </mxCell>
+    </root>
+  </mxGraphModel>

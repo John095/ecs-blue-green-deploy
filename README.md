@@ -32,8 +32,54 @@ This project is a full-stack blog application built with **Next.js** (App Router
   - **GitHub Actions**: CI/CD pipeline builds the Docker image, pushes it to AWS ECR, updates the ECS task definition, and swaps target groups for zero-downtime deployment.
   - **PostgreSQL**: Managed database (e.g., AWS RDS or Supabase) for production data storage.
 
-<!-- ![Architecture Diagram](architecture-diagram.png)
-*Diagram showing local Docker setup and AWS ECS blue-green deployment pipeline* -->
+[Architecture Diagram](architecture-diagram.png)
++----------------------------- AWS Cloud -----------------------------+
+|                                                                    |
+|  +---------------------- VPC (10.0.0.0/16) -----------------------+ |
+|  |                                                               | |
+|  |  +------- Internet Gateway --------+                          | |
+|  |  |                                 |                          | |
+|  |  +-------------------|-------------+                          | |
+|  |                      |                                        | |
+|  |  +-- Availability Zone 1 ---+    +-- Availability Zone 2 ---+ | |
+|  |  | Public Subnet            |    | Public Subnet            | | |
+|  |  | (10.0.1.0/24)           |    | (10.0.3.0/24)           | | |
+|  |  | +-------------------+    |    | +-------------------+    | | |
+|  |  | | ALB (Blue:80)     |<---+----+-| ALB (Green:8080) |    | | |
+|  |  | +-------------------+    |    | +-------------------+    | | |
+|  |  | | NAT Gateway       |<---+----+-| NAT Gateway       |    | | |
+|  |  | +-------------------+    |    | +-------------------+    | | |
+|  |  +-------------------------+    +-------------------------+ | | |
+|  |  | Private Subnet          |    | Private Subnet          | | | |
+|  |  | (10.0.2.0/24)          |    | (10.0.4.0/24)          | | | |
+|  |  | +-------------------+   |    | +-------------------+   | | | |
+|  |  | | ECS Fargate (Blue)|<--+----+-| ECS Fargate (Green)| | | | |
+|  |  | +-------------------+   |    | +-------------------+   | | | |
+|  |  +-------------------------+    +-------------------------+ | | |
+|  |  |                          RDS (PostgreSQL)              | | | |
+|  |  | +--------------------------------------------------+  | | | |
+|  |  +-------------------------------------------------------+ | |
+|  |                                                            | |
+|  +------------------------------------------------------------+ |
+|  |  ECR       CloudWatch       Route 53 (Optional)            | |
+|  +------------------------------------------------------------+ |
+|                                                                    |
++--------------------------------------------------------------------+
+       ^                        External
+       | 
+       | 
++------+-----------------------+
+| GitHub Actions (CI/CD)      |
++-----------------------------+
+
++---------------- Local Development ----------------+
+|                                                 |
+|  +----------------+     +------------------+     |
+|  | PostgreSQL     |<----| Next.js App      |     |
+|  | (Docker)       |     | (TypeScript)     |     |
+|  +----------------+     +------------------+     |
++-------------------------------------------------+
+*Diagram showing local Docker setup and AWS ECS blue-green deployment pipeline*
 
 ## Implementation Steps
 1. **Local Setup**:
