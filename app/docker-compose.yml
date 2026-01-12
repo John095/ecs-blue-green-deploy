@@ -1,5 +1,16 @@
 version: "3.8"
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://blogadmin:securepassword123@postgres:5432/blogdb
+    depends_on:
+      - postgres
+
   postgres:
     image: postgres:16
     environment:

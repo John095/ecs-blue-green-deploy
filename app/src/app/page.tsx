@@ -17,8 +17,18 @@ export default function Home() {
   useEffect(() => {
     fetch('/api/posts')
       .then((res) => res.json())
-      .then((data: Post[]) => setPosts(data))
-      .catch((err) => console.error(err));
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setPosts(data);
+        } else {
+          console.error('API error:', data);
+          setPosts([]);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setPosts([]);
+      });
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -76,15 +86,19 @@ export default function Home() {
       </div>
 
       <div className="space-y-4">
-        {posts.map((post) => (
-          <div key={post.id} className="p-4 bg-white rounded shadow">
-            <h2 className="text-xl font-semibold">{post.title}</h2>
-            <p className="text-gray-600">{post.content}</p>
-            <p className="text-sm text-gray-500 mt-2">
-              Posted on {new Date(post.createdAt).toLocaleDateString()}
-            </p>
-          </div>
-        ))}
+        {posts.length === 0 ? (
+          <p className="text-gray-500 text-center">No posts yet. Create your first post above!</p>
+        ) : (
+          posts.map((post) => (
+            <div key={post.id} className="p-4 bg-white rounded shadow">
+              <h2 className="text-xl font-semibold">{post.title}</h2>
+              <p className="text-gray-600">{post.content}</p>
+              <p className="text-sm text-gray-500 mt-2">
+                Posted on {new Date(post.createdAt).toLocaleDateString()}
+              </p>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
