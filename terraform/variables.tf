@@ -30,8 +30,25 @@ variable "database_url" {
   description = "DATABASE_URL for Prisma"
   type        = string
 }
+
 variable "db_name" {
   description = "Name of the PostgreSQL database"
   type        = string
   default     = "app_db"
+}
+
+variable "github_owner" {
+  description = "GitHub repository owner"
+  type        = string
+}
+
+variable "github_repo" {
+  description = "GitHub repository name"
+  type        = string
+}
+
+variable "github_token" {
+  description = "GitHub personal access token"
+  type        = string
+  sensitive   = true
 }

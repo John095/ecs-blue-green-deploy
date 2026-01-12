@@ -1,0 +1,20 @@
+# Copy this file to terraform.tfvars and fill in your values
+
+aws_region = "us-east-1"
+project_name = "ecs-blue-green"
+
+# Database configuration
+db_username = "postgres"
+db_password = "your-secure-password"
+db_name = "app_db"
+
+# Initial Docker image (you can use a placeholder initially)
+app_image_url = "nginx:latest"
+
+# Database URL for Prisma (will be constructed from RDS endpoint)
+database_url = "postgresql://postgres:your-secure-password@your-rds-endpoint:5432/app_db"
+
+# GitHub configuration for CodePipeline
+github_owner = "your-github-username"
+github_repo = "your-repo-name"
+github_token = "your-github-personal-access-token"
