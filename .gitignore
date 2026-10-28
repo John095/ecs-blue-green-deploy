@@ -1,6 +1,8 @@
 # Node.js
 node_modules
 .env
+.env.*
+!.env.example
 .next
 out
 
@@ -24,6 +26,8 @@ Thumbs.db
 .idea/
 
 # Terraform
+*.tfvars
+!*.tfvars.example
 *.tfstate
 *.tfstate.*
 .terraform/
